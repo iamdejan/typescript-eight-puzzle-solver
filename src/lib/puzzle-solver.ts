@@ -2,7 +2,7 @@ import { PriorityQueue } from "@datastructures-js/priority-queue";
 
 export type PuzzleState = number[][];
 
-function toString(state: PuzzleState): string {
+export function toString(state: PuzzleState): string {
   return JSON.stringify(state);
 }
 
@@ -15,7 +15,7 @@ const neighbors: Coordinate[] = [
   { r: 1, c: 0 },
 ];
 
-const GOAL_STATE: PuzzleState = [
+export const GOAL_STATE: PuzzleState = [
   [1, 2, 3],
   [4, 5, 6],
   [7, 8, 0],
@@ -29,12 +29,16 @@ type Node = {
 }; // used inside priority queue
 
 // Check if the puzzle is solvable.
-// Reference: https://www.geeksforgeeks.org/dsa/check-instance-8-puzzle-solvable/
 export function isSolvable(state: PuzzleState): boolean {
+  const flattened = state.flat();
   let count = 0;
-  for (let r = 0; r < 2; r++) {
-    for (let c = r + 1; c < 3; c++) {
-      if (state[c]![r]! > 0 && state[c]![r]! > state[r]![c]!) {
+  for (let i = 0; i < flattened.length; i++) {
+    for (let j = i + 1; j < flattened.length; j++) {
+      const a = flattened[i];
+      const b = flattened[j];
+
+      // Count pair (a, b) as inversion if a > b and b is not the empty space
+      if (a! > 0 && b! > 0 && a! > b!) {
         count += 1;
       }
     }

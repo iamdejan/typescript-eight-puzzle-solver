@@ -11,7 +11,9 @@
     "build": "tsc -b && vite build",
     "serve": "vite preview",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "license": "MIT",
   "devDependencies": {

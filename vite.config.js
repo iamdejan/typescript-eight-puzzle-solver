@@ -50,14 +50,14 @@ export default defineConfig({
     server: {
       deps: {
         inline: [/@kobalte\/.*/],
-      }
+      },
     },
     deps: {
       optimizer: {
         web: {
           include: ["solid-js", "@solidjs/router"],
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 });
