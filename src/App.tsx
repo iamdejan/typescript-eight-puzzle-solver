@@ -1,11 +1,11 @@
 import type { Component } from "solid-js";
-import Comp from "./Comp";
+import "~/app.css";
+import { Button } from "./components/ui/button";
 
 const App: Component = () => {
   return (
     <>
-      <h1>Hello world!!!!</h1>
-      <Comp />
+      <Button>Click me</Button>
     </>
   );
 };
