@@ -26,6 +26,12 @@
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "./src/*"
+      ]
+    },
 
     // disabled because `import eslint from "vite-plugin-eslint"` yields error despite working normally.
     "checkJs": false,

@@ -1,6 +1,11 @@
 import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
 import eslint from "vite-plugin-eslint";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default defineConfig({
   plugins: [
@@ -20,6 +25,11 @@ export default defineConfig({
       enforce: "post",
     },
   ],
+  resolve: {
+    alias: {
+      "~": path.resolve(__dirname, "./src"),
+    },
+  },
   server: {
     port: 3000,
   },
