@@ -31,6 +31,10 @@ type Node = {
 // Check if the puzzle is solvable.
 export function isSolvable(state: PuzzleState): boolean {
   const flattened = state.flat();
+  return isSolvableFlat(flattened);
+}
+
+export function isSolvableFlat(flattened: number[]): boolean {
   let count = 0;
   for (let i = 0; i < flattened.length; i++) {
     for (let j = i + 1; j < flattened.length; j++) {
@@ -45,6 +49,30 @@ export function isSolvable(state: PuzzleState): boolean {
   }
 
   return count % 2 == 0;
+}
+
+export function shuffle(): PuzzleState {
+  let state = structuredClone(GOAL_STATE).flat();
+  for (let i = state.length - 1; i > 1; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [state[i], state[j]] = [state[j]!, state[i]!];
+  }
+
+  if (!isSolvableFlat(state)) {
+    if (state[0] === 0 || state[1] === 0) {
+      // Simple fallback: just regenerate everything
+      return shuffle();
+    }
+    [state[0], state[1]] = [state[1]!, state[0]!];
+  }
+
+  // convert to 2D array
+  const chunked: PuzzleState = [];
+  for (let i = 0; i < state.length; i += 3) {
+    chunked.push(state.slice(i, i + 3));
+  }
+
+  return chunked;
 }
 
 export function solvePuzzle(initialState: PuzzleState): PuzzleState[] | null {
