@@ -1,0 +1,29 @@
+name: Trunk Pipeline
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  pipeline:
+    strategy:
+      matrix:
+        os: ['ubuntu-22.04', 'ubuntu-24.04']
+        node_version: ['18.20.4', '20.18.0', '22.11.0']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node_version }}
+          check-latest: false
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+      - name: Install PNPM
+        run: npm install --global pnpm@10.6.3
+      - name: Install dependencies
+        run: pnpm install
+      - name: Check Typings
+        run: pnpm run type:check
+      - name: Run lint
+        run: pnpm run lint
