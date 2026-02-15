@@ -178,6 +178,10 @@ export default function App(): JSX.Element {
                     ←
                   </Button>
 
+                  <span class="text-sm font-medium w-20 text-center text-slate-600">
+                    Step {solutionStep()} / {solutionPath().length - 1}
+                  </span>
+
                   <Button
                     variant="outline"
                     onClick={handleNextStep}
