@@ -36,4 +36,28 @@ export default defineConfig({
   build: {
     target: "esnext",
   },
+  test: {
+    environment: "jsdom",
+    globals: true,
+    setupFiles: ["./setupVitest.ts"],
+    transformMode: {
+      web: [/\.[jt]sx?$/],
+    },
+    coverage: {
+      enabled: true,
+      reporter: ["text", "html"],
+    },
+    server: {
+      deps: {
+        inline: [/@kobalte\/.*/],
+      }
+    },
+    deps: {
+      optimizer: {
+        web: {
+          include: ["solid-js", "@solidjs/router"],
+        }
+      }
+    }
+  }
 });
