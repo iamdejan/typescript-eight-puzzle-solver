@@ -53,7 +53,9 @@ describe("App", () => {
   it("updates the board when custom state is given", () => {
     render(() => <App />);
 
-    const input = screen.getByPlaceholderText(/e.g. 8 0 6/i) as HTMLInputElement;
+    const input = screen.getByPlaceholderText(
+      /e.g. 8 0 6/i,
+    ) as HTMLInputElement;
     const setBtn = screen.getByText("Set");
 
     fireEvent.input(input, { target: { value: "1 2 3 4 5 6 7 0 8" } });
@@ -72,7 +74,9 @@ describe("App", () => {
   it("solves the puzzle and allows manual navigation", async () => {
     render(() => <App />);
 
-    const input = screen.getByPlaceholderText(/e.g. 8 0 6/i) as HTMLInputElement;
+    const input = screen.getByPlaceholderText(
+      /e.g. 8 0 6/i,
+    ) as HTMLInputElement;
     const setBtn = screen.getByText("Set");
 
     fireEvent.input(input, { target: { value: "1 2 3 4 5 6 7 0 8" } });
@@ -114,7 +118,9 @@ describe("App", () => {
   it("displays error card for unsolvable puzzle", async () => {
     render(() => <App />);
 
-    const input = screen.getByPlaceholderText(/e.g. 8 0 6/i) as HTMLInputElement;
+    const input = screen.getByPlaceholderText(
+      /e.g. 8 0 6/i,
+    ) as HTMLInputElement;
     const setBtn = screen.getByText("Set");
 
     fireEvent.input(input, { target: { value: "2 1 3 4 5 6 7 8 0" } });
@@ -142,13 +148,17 @@ describe("App", () => {
 
   it("handles invalid input gracefully", () => {
     render(() => <App />);
-    
-    const input = screen.getByPlaceholderText(/e.g. 8 0 6/i) as HTMLInputElement;
+
+    const input = screen.getByPlaceholderText(
+      /e.g. 8 0 6/i,
+    ) as HTMLInputElement;
     const setBtn = screen.getByText("Set");
 
     fireEvent.input(input, { target: { value: "INVALID TEXT" } });
     fireEvent.click(setBtn);
 
-    expect(window.alert).toHaveBeenCalledWith(expect.stringContaining("Invalid format"));
+    expect(window.alert).toHaveBeenCalledWith(
+      expect.stringContaining("Invalid format"),
+    );
   });
 });
