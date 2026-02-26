@@ -18,8 +18,10 @@ import {
 } from "./lib/puzzle-solver";
 import Tile from "./components/tile";
 import { Input } from "./components/ui/input";
+import { createTheme } from "./lib/use-theme";
 
 export default function App(): JSX.Element {
+  const { theme, toggleTheme } = createTheme();
   const [board, setBoard] = createSignal<PuzzleState>([
     [1, 2, 3],
     [4, 5, 6],
@@ -126,14 +128,16 @@ export default function App(): JSX.Element {
   }
 
   return (
-    <div class="min-h-screen bg-slate-50 flex items-center justify-center p-4 font-sans text-slate-900">
+    <div class="min-h-screen bg-background flex items-center justify-center p-4 font-sans text-foreground">
       <Show when={noSolutionFound()}>
-        <Card class="w-full max-w-md border-red-200 bg-red-50">
+        <Card class="w-full max-w-md border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950">
           <CardHeader>
-            <CardTitle class="text-red-700">No Solution Found</CardTitle>
+            <CardTitle class="text-red-700 dark:text-red-400">
+              No Solution Found
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <p class="text-red-600">
+            <p class="text-red-600 dark:text-red-300">
               The puzzle state you entered is mathematically impossible to
               solve. The 8-puzzle requires an even number of inversions.
             </p>
@@ -148,13 +152,61 @@ export default function App(): JSX.Element {
 
       <Show when={!noSolutionFound()}>
         <Card class="w-full max-w-lg shadow-xl">
-          <CardHeader class="text-center">
+          <CardHeader class="text-center relative">
+            <Button
+              variant="outline"
+              size="icon"
+              class="absolute right-0 top-0 rounded-full"
+              onClick={toggleTheme}
+              title={`Switch to ${theme() === "light" ? "dark" : "light"} mode`}
+            >
+              <Show
+                when={theme() === "light"}
+                fallback={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="4" />
+                    <path d="M12 2v2" />
+                    <path d="M12 20v2" />
+                    <path d="m4.93 4.93 1.41 1.41" />
+                    <path d="m17.66 17.66 1.41 1.41" />
+                    <path d="M2 12h2" />
+                    <path d="M20 12h2" />
+                    <path d="m6.34 17.66-1.41 1.41" />
+                    <path d="m19.07 4.93-1.41 1.41" />
+                  </svg>
+                }
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                </svg>
+              </Show>
+            </Button>
             <CardTitle class="text-2xl">8-Puzzle Solver</CardTitle>
-            <p class="text-sm text-slate-500">A* Algorithm Demo</p>
+            <p class="text-sm text-muted-foreground">A* Algorithm Demo</p>
           </CardHeader>
 
           <CardContent class="flex flex-col items-center gap-6">
-            <div class="grid grid-cols-3 gap-2 bg-slate-200 p-2 rounded-xl">
+            <div class="grid grid-cols-3 gap-2 bg-muted p-2 rounded-xl">
               <For each={board()}>
                 {(row) => (
                   <For each={row}>{(number) => <Tile value={number} />}</For>
@@ -164,7 +216,7 @@ export default function App(): JSX.Element {
 
             <Show when={solutionPath().length > 0}>
               <div class="flex flex-col items-center gap-2 w-full animate-content-show">
-                <p class="text-sm font-semibold text-green-600">
+                <p class="text-sm font-semibold text-green-600 dark:text-green-400">
                   Solution Found in {solutionPath().length - 1} step(s)!
                 </p>
 
@@ -178,7 +230,7 @@ export default function App(): JSX.Element {
                     ←
                   </Button>
 
-                  <span class="text-sm font-medium w-20 text-center text-slate-600">
+                  <span class="text-sm font-medium w-20 text-center text-muted-foreground">
                     Step {solutionStep()} / {solutionPath().length - 1}
                   </span>
 
@@ -194,7 +246,7 @@ export default function App(): JSX.Element {
               </div>
             </Show>
 
-            <div class="w-full h-px bg-slate-100" />
+            <div class="w-full h-px bg-border" />
 
             <div class="w-full space-y-4">
               <div class="grid grid-cols-2 gap-3">
@@ -216,7 +268,7 @@ export default function App(): JSX.Element {
               </div>
 
               <div class="space-y-2">
-                <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                <label class="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   Set Custom State
                 </label>
                 <div class="flex gap-2">
@@ -236,7 +288,7 @@ export default function App(): JSX.Element {
                     Set
                   </Button>
                 </div>
-                <p class="text-xs text-slate-400">
+                <p class="text-xs text-muted-foreground">
                   Enter numbers 0-8 (where 0 is empty) separated by spaces.
                 </p>
               </div>
