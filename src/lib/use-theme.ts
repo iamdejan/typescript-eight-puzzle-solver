@@ -14,12 +14,15 @@ function getSystemTheme(): Theme {
 }
 
 function getStoredTheme(): Theme | null {
-  if (typeof localStorage !== "undefined") {
-    const stored = localStorage.getItem(THEME_KEY);
-    if (stored === "light" || stored === "dark") {
-      return stored;
-    }
+  if (typeof localStorage === "undefined") {
+    return null;
   }
+
+  const stored = localStorage.getItem(THEME_KEY);
+  if (stored === "light" || stored === "dark") {
+    return stored;
+  }
+
   return null;
 }
 
@@ -32,12 +35,14 @@ export function createTheme() {
   const [theme, setTheme] = createSignal<Theme>(getInitialTheme());
 
   const applyTheme = (newTheme: Theme) => {
-    if (typeof document !== "undefined") {
-      const root = document.documentElement;
-      root.classList.remove("light", "dark");
-      root.classList.add(newTheme);
-      root.setAttribute("data-kb-theme", newTheme);
+    if (typeof document === "undefined") {
+      return;
     }
+
+    const root = document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(newTheme);
+    root.setAttribute("data-kb-theme", newTheme);
   };
 
   onMount(() => {
