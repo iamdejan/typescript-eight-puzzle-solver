@@ -1,5 +1,3 @@
-# SolisJS TypeScript Template
+# TypeScript 8-Puzzle Solver
 
-This is a repository for minimal SolidJS TypeScript template, adapted from [ts-minimal template](https://github.com/solidjs/templates/tree/main/ts-minimal).
-
-The only difference with `ts-minimal` template is that ESLint is included in this template.
+This is a repository to solve 8-puzzle using A* algorithm. See the result [here](https://typescript-eight-puzzle-solver.pages.dev/).
